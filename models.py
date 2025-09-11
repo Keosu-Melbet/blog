@@ -29,6 +29,7 @@ class Article(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
+    
     # SEO fields
     meta_title = db.Column(db.String(200))
     meta_description = db.Column(db.String(300))
@@ -36,6 +37,8 @@ class Article(db.Model):
     
     # Foreign key
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+
     
     def __repr__(self):
         return f'<Article {self.title}>'
