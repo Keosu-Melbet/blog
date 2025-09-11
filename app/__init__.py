@@ -13,12 +13,11 @@ def create_app():
         app.config.from_object("config.ProductionConfig")
     else:
         app.config.from_object("config.DevelopmentConfig")
-       # Tự tạo bảng nếu đang chạy ở production
-    if env == "production":
+      # Tạo bảng nếu dùng SQLite và chưa có
+    if app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite"):
         with app.app_context():
             db.create_all()
-            print("✅ Tables created in production")
-
+            print("✅ Tables created automatically")
     # Security
     app.secret_key = os.environ.get("SESSION_SECRET", "dev-key")
     app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
