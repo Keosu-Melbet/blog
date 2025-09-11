@@ -1,6 +1,6 @@
 import os
 import logging
-from flask import Flask, request, url_for
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -35,22 +35,22 @@ def get_current_year():
     return datetime.now().year
 
 with app.app_context():
-  from models import User
-  if not User.query.filter_by(username="admin").first():
-    admin = User(username="admin", is_admin=True)
-    admin.set_password("123456")
-    db.session.add(admin)
-    db.session.commit()
-
-    # Import models and routes
+    # Import models trước
     import models
-    import routes
+    from models import User, Category
     
-    # Create all tables
+    # Tạo bảng (nếu chưa có)
     db.create_all()
-    
-    # Create default categories if they don't exist
-    from models import Category
+
+    # Tạo admin mặc định nếu chưa có
+    if not User.query.filter_by(username="admin").first():
+        admin = User(username="admin", is_admin=True)
+        admin.set_password("123456")  # Đổi khi deploy production
+        db.session.add(admin)
+        db.session.commit()
+        app.logger.info("Created default admin user: admin / 123456")
+
+    # Tạo các category mặc định
     default_categories = [
         {'name': 'Kèo thơm', 'slug': 'keo-thom', 'description': 'Những kèo thơm hôm nay'},
         {'name': 'Soi kèo', 'slug': 'soi-keo', 'description': 'Phân tích và soi kèo trận đấu'},
@@ -58,15 +58,18 @@ with app.app_context():
         {'name': 'Tin tức', 'slug': 'tin-tuc', 'description': 'Tin tức bóng đá mới nhất'},
         {'name': 'Lịch thi đấu', 'slug': 'lich-thi-dau', 'description': 'Lịch thi đấu các giải'},
     ]
-    
+
     for cat_data in default_categories:
         existing = Category.query.filter_by(slug=cat_data['slug']).first()
         if not existing:
             category = Category(**cat_data)
             db.session.add(category)
-    
+
     try:
         db.session.commit()
     except Exception as e:
         db.session.rollback()
         app.logger.error(f"Error creating default categories: {e}")
+
+    # Import routes sau khi DB setup xong
+    import routes
