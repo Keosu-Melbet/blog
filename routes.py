@@ -6,6 +6,9 @@ from seo_utils import generate_meta_tags
 from datetime import datetime, timedelta
 from sqlalchemy import or_, desc
 import xml.etree.ElementTree as ET
+from flask import session
+from functools import wraps
+from models import User
 
 @app.route('/')
 def index():
