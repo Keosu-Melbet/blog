@@ -7,6 +7,12 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
+      # Cấu hình theo môi trường
+    env = os.environ.get("FLASK_ENV", "development")
+    if env == "production":
+        app.config.from_object("config.ProductionConfig")
+    else:
+        app.config.from_object("config.DevelopmentConfig")
 
     # Security
     app.secret_key = os.environ.get("SESSION_SECRET", "dev-key")
