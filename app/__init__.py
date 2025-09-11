@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.middleware.proxy_fix import ProxyFix
+from .models import Article  # ✅ Import để SQLAlchemy nhận diện
 
 db = SQLAlchemy()  # ✅ Chỉ tạo 1 lần
 
