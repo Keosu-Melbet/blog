@@ -1,12 +1,16 @@
-import osimport os
+import os
 
 class Config:
-    SECRET_KEY = os.environ.get("SECRET_KEY", "dev_secret")
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "sqlite:///app.db")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "sqlite:///keosu.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_recycle": 300,
+        "pool_pre_ping": True,
+    }
+    SECRET_KEY = os.environ.get("SESSION_SECRET", "dev-key")
 
+class ProductionConfig(Config):
+    DEBUG = False
 
-class Config:
-    SECRET_KEY = os.environ.get("SECRET_KEY", "dev_secret")
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "sqlite:///app.db")
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+class DevelopmentConfig(Config):
+    DEBUG = True
