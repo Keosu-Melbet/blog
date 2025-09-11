@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SelectField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length, Email
-from .models import Category
 
 class ArticleForm(FlaskForm):
     title = StringField('Tiêu đề', validators=[DataRequired(), Length(max=200)])
