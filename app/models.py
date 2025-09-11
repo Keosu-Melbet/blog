@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash, jsonify, make_response
 from . import db
-from forms import ArticleForm, ContactForm, SearchForm
+from .forms import ArticleForm, ContactForm, SearchForm
 from seo_utils import generate_meta_tags
 from datetime import datetime, timedelta
 from sqlalchemy import or_, desc
