@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: keosu-blog
+    name: Keosu-Melbet-blog
     env: python
     plan: free
     buildCommand: |
