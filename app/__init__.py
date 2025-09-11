@@ -7,18 +7,21 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
+
+    # Security
     app.secret_key = os.environ.get("SESSION_SECRET", "dev-key")
     app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
     # Config
     app.config.from_object("config")
 
-    # DB
+    # Database
     db.init_app(app)
 
-    # Blueprints
+    # Register Blueprints
     from .routes import main_bp
     from .admin_routes import admin_bp
+
     app.register_blueprint(main_bp)
     app.register_blueprint(admin_bp, url_prefix="/admin")
 
