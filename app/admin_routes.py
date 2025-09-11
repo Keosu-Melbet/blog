@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
-from .models import Article
+from .models import Article, Category
 from .forms import ArticleForm
 from . import db
 from sqlalchemy import desc
@@ -20,6 +20,8 @@ def manage_articles():
 @admin_bp.route("/articles/create", methods=["GET", "POST"])
 def create_article():
     form = ArticleForm()
+    form.category_id.choices = [(c.id, c.name) for c in Category.query.all()]
+
     if form.validate_on_submit():
         article = Article(
             title=form.title.data,
