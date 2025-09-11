@@ -35,6 +35,13 @@ def get_current_year():
     return datetime.now().year
 
 with app.app_context():
+  from models import User
+  if not User.query.filter_by(username="admin").first():
+    admin = User(username="admin", is_admin=True)
+    admin.set_password("123456")
+    db.session.add(admin)
+    db.session.commit()
+
     # Import models and routes
     import models
     import routes
