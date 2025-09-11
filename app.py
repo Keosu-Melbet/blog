@@ -5,6 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
 from datetime import datetime
+from admin_routes import admin_bp
+app.register_blueprint(admin_bp)
+
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
