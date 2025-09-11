@@ -1,7 +1,7 @@
 
 from flask import render_template, request, redirect, url_for, flash, jsonify, make_response
 from app import app, db
-from models import Article, Category, BettingOdd, Match
+from .models import Article, Category, BettingOdd, Match
 from forms import ArticleForm, ContactForm, SearchForm
 from seo_utils import generate_meta_tags
 from datetime import datetime, timedelta
