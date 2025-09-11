@@ -1,8 +1,9 @@
 services:
   - type: web
-    name: keosu-blog
+    name: blog
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn run:app
+    startCommand: gunicorn wsgi:app
+
 
