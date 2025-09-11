@@ -13,6 +13,11 @@ def create_app():
         app.config.from_object("config.ProductionConfig")
     else:
         app.config.from_object("config.DevelopmentConfig")
+       # Tự tạo bảng nếu đang chạy ở production
+    if env == "production":
+        with app.app_context():
+            db.create_all()
+            print("✅ Tables created in production")
 
     # Security
     app.secret_key = os.environ.get("SESSION_SECRET", "dev-key")
