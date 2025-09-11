@@ -1,15 +1,11 @@
 import os
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.middleware.proxy_fix import ProxyFix
-from .models import Article  # ✅ Import để SQLAlchemy nhận diện
-
-db = SQLAlchemy()  # ✅ Chỉ tạo 1 lần
+from .extensions import db  # ✅ Import từ extensions
 
 def create_app():
     app = Flask(__name__)
 
-    # Cấu hình môi trường
     env = os.environ.get("FLASK_ENV", "development")
     if env == "production":
         app.config.from_object("config.ProductionConfig")
@@ -21,21 +17,11 @@ def create_app():
 
     db.init_app(app)  # ✅ Gắn app vào SQLAlchemy
 
-    # Tạo bảng nếu dùng SQLite
-    if app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite"):
-        with app.app_context():
-            db.create_all()
-            print("✅ Tables created")
+    with app.app_context():
+        from .models import Article  # ✅ Import sau khi init_app
+        db.create_all()
+        print("✅ Tables created")
 
-    try:
-        with app.app_context():
-            db.session.execute("SELECT 1")
-            print("✅ DB session is active")
-    except Exception as e:
-        print("❌ DB session failed:", e)
-
-
-    # Đăng ký blueprint
     from .routes import main_bp
     from .admin_routes import admin_bp
     app.register_blueprint(main_bp)
