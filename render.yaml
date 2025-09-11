@@ -13,5 +13,3 @@ services:
         value: production
       - key: SESSION_SECRET
         value: your-secret-key-here
-      - key: DATABASE_URL
-        value: your-database-url-here
