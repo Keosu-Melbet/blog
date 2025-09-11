@@ -1,4 +1,4 @@
-from . import db
+from app.extensions import db  # ✅ Không import từ . (tránh vòng lặp)
 from datetime import datetime
 
 class Category(db.Model):
