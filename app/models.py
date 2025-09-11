@@ -10,7 +10,9 @@ class Article(db.Model):
     title = db.Column(db.String(255), nullable=False)
     content = db.Column(db.Text, nullable=False)
     slug = db.Column(db.String(255), unique=True)
+    featured = db.Column(db.Boolean, default=False)
     published = db.Column(db.Boolean, default=False)
+    featured = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
 
