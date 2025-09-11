@@ -26,6 +26,14 @@ def create_app():
             db.create_all()
             print("✅ Tables created")
 
+    try:
+        with app.app_context():
+            db.session.execute("SELECT 1")
+            print("✅ DB session is active")
+    except Exception as e:
+        print("❌ DB session failed:", e)
+
+
     # Đăng ký blueprint
     from .routes import main_bp
     from .admin_routes import admin_bp
