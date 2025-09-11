@@ -1,9 +1,15 @@
 services:
   - type: web
-    name: blog
+    name: keosu-blog
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn wsgi:app
-
-
+    autoDeploy: true
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: DATABASE_URL
+        value: your-database-url-here
+      - key: SESSION_SECRET
+        value: your-secret-key-here
