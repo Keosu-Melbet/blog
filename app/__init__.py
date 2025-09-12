@@ -26,11 +26,11 @@ def create_app():
     from .admin_routes import admin_bp
     app.register_blueprint(main_bp)
     app.register_blueprint(admin_bp, url_prefix="/admin")
+
+    # ✅ Đăng ký hàm vào Jinja2
     from datetime import datetime
-
-def get_current_year():
-    return datetime.now().year
-
-app.jinja_env.globals["get_current_year"] = get_current_year
+    def get_current_year():
+        return datetime.now().year
+    app.jinja_env.globals["get_current_year"] = get_current_year
 
     return app
