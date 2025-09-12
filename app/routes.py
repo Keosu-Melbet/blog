@@ -71,10 +71,17 @@ def tin_tuc():
 def contact():
     form = ContactForm()
     if form.validate_on_submit():
-        # Xử lý gửi email hoặc lưu vào DB
         flash("Cảm ơn bạn đã liên hệ!", "success")
         return redirect(url_for("main.contact"))
-    return render_template("contact.html", form=form)
+
+    # ✅ Thêm meta_tags tại đây
+    meta_tags = generate_meta_tags(
+        title="Liên Hệ Kèo Sư",
+        description="Gửi liên hệ, góp ý hoặc hợp tác với Kèo Sư. Chúng tôi luôn sẵn sàng hỗ trợ.",
+        keywords="liên hệ, hỗ trợ, tư vấn kèo bóng đá"
+    )
+
+    return render_template("contact.html", form=form, meta_tags=meta_tags)
 
 @main_bp.route("/tim-kiem", methods=["GET", "POST"])
 def search():
