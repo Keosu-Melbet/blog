@@ -36,14 +36,14 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.keo_thom') }}">Kèo thơm</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('keo_thom') }}">Kèo thơm</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Lịch thi đấu</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Tỷ số trực tiếp</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.soi_keo') }}">Soi kèo</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.meo_cuoc') }}">Mẹo cược</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.tin_tuc') }}">Tin tức</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('soi_keo') }}">Soi kèo</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('meo_cuoc') }}">Mẹo cược</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('tin_tuc') }}">Tin tức</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Đại lý MelBet</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.contact') }}">Liên hệ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Liên hệ</a></li>
                     </ul>
                     <form class="d-flex" action="{{ url_for('main.search') }}" method="GET">
                         <input class="form-control me-2" type="search" name="q" placeholder="Tìm kiếm..." value="{{ request.args.get('q', '') }}">
