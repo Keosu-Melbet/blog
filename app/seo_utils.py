@@ -1,3 +1,8 @@
+from datetime import datetime
+
+def get_current_year():
+    return datetime.now().year
+
 def generate_meta_tags(title, description, keywords=None, image=None, url=None):
     """Generate meta tags for SEO"""
     meta_tags = {
