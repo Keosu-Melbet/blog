@@ -9,9 +9,11 @@ class ArticleForm(FlaskForm):
     published = BooleanField("Công khai")
 
 class ContactForm(FlaskForm):
-    name = StringField("Tên", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired()])
-    message = TextAreaField("Tin nhắn", validators=[DataRequired()])
+    name = StringField("Họ và tên", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    subject = StringField("Tiêu đề", validators=[DataRequired()])
+    message = TextAreaField("Nội dung", validators=[DataRequired()])
+    submit = SubmitField("Gửi liên hệ")
 
 class SearchForm(FlaskForm):
     keyword = StringField("Từ khóa", validators=[DataRequired()])
