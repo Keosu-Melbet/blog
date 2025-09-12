@@ -53,19 +53,25 @@ def meo_cuoc():
                            meta_tags=meta_tags)
 
 @main_bp.route("/tin-tuc")
-def tin_tuc():
-    articles = Article.query.filter_by(published=True).order_by(desc(Article.created_at)).limit(10).all()
-    category = Category.query.filter_by(name="Tin Tức").first()
+@main_bp.route("/tin-tuc/<category>")
+def tin_tuc(category=None):
+    query = Article.query.filter_by(published=True)
+
+    if category:
+        cat = Category.query.filter_by(slug=category).first()
+        if cat:
+            query = query.filter_by(category_id=cat.id)
+
+    page = request.args.get("page", 1, type=int)
+    articles = query.order_by(desc(Article.created_at)).paginate(page=page, per_page=10)
 
     meta_tags = generate_meta_tags(
         title="Tin Tức Bóng Đá",
         description="Cập nhật tin tức bóng đá mới nhất",
         keywords="tin tức bóng đá, tin thể thao"
     )
-    return render_template("tin-tuc.html",
-                           articles=articles,
-                           category=category,
-                           meta_tags=meta_tags)
+
+    return render_template("tin-tuc.html", articles=articles, meta_tags=meta_tags)
 
 @main_bp.route("/lien-he", methods=["GET", "POST"])
 def contact():
