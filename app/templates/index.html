@@ -133,4 +133,15 @@
                         <p class="card-text text-muted small">{{ article.get_excerpt(80) }}</p>
                     </div>
                     <div class="card-footer bg-transparent border-secondary">
-                        <small class
+                        <small class="text-muted">
+                            <i class="fas fa-calendar me-1"></i>{{ article.created_at.strftime('%d/%m/%Y') }}
+                        </small>
+                    </div>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}
