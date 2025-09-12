@@ -6,18 +6,21 @@ from sqlalchemy import desc
 
 admin_bp = Blueprint("admin", __name__, template_folder="templates/admin")
 
-@admin_bp.route("/")
+# ✅ Trang dashboard admin
+@admin_bp.route("/", endpoint="dashboard")
 def dashboard():
     return render_template("admin/dashboard.html")
 
-@admin_bp.route("/articles")
+# ✅ Quản lý bài viết
+@admin_bp.route("/articles", endpoint="manage_articles")
 def manage_articles():
     page = request.args.get("page", 1, type=int)
     articles = Article.query.order_by(desc(Article.created_at))\
                             .paginate(page=page, per_page=20, error_out=False)
     return render_template("admin/manage_articles.html", articles=articles)
 
-@admin_bp.route("/articles/create", methods=["GET", "POST"])
+# ✅ Tạo bài viết mới
+@admin_bp.route("/articles/create", methods=["GET", "POST"], endpoint="create_article")
 def create_article():
     form = ArticleForm()
     form.category_id.choices = [(c.id, c.name) for c in Category.query.all()]
@@ -34,4 +37,6 @@ def create_article():
         db.session.commit()
         flash("Bài viết đã được tạo!", "success")
         return redirect(url_for("admin.manage_articles"))
+
     return render_template("admin/create_article.html", form=form)
+
