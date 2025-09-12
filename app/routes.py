@@ -37,7 +37,7 @@ def soi_keo():
                            category=category,
                            meta_tags=meta_tags)
 
-@main_bp.route("/meo-cuoc", endpoint="keo_thom")
+@main_bp.route("/meo-cuoc")
 def meo_cuoc():
     articles = Article.query.filter_by(published=True).order_by(desc(Article.created_at)).limit(10).all()
     category = Category.query.filter_by(name="Mẹo Cược").first()
