@@ -57,7 +57,7 @@
                             <div class="card-body">
                                 <span class="badge bg-warning text-dark mb-2">{{ article.category.name }}</span>
                                 <h5 class="card-title">
-                                    <a href="{{ url_for('article_detail', slug=article.slug) }}" 
+                                    <a href="{{ url_for('main.article_detail', slug=article.slug) }}" 
                                        class="text-decoration-none text-warning">
                                         {{ article.title }}
                                     </a>
@@ -79,7 +79,7 @@
                                         <i class="fas fa-calendar me-1"></i>{{ article.created_at.strftime('%d/%m/%Y') }}
                                         <i class="fas fa-eye ms-3 me-1"></i>{{ article.views }}
                                     </small>
-                                    <a href="{{ url_for('article_detail', slug=article.slug) }}" 
+                                    <a href="{{ url_for('main.article_detail', slug=article.slug) }}" 
                                        class="btn btn-warning btn-sm">
                                         Đọc tiếp
                                     </a>
@@ -97,7 +97,7 @@
                         {% if articles.has_prev %}
                         <li class="page-item">
                             <a class="page-link bg-dark border-secondary text-warning" 
-                               href="{{ url_for('search', q=query, page=articles.prev_num) }}">
+                               href="{{ url_for('main.search', q=query, page=articles.prev_num) }}">
                                 <i class="fas fa-chevron-left"></i>
                             </a>
                         </li>
@@ -108,7 +108,7 @@
                                 {% if page_num != articles.page %}
                                 <li class="page-item">
                                     <a class="page-link bg-dark border-secondary text-warning" 
-                                       href="{{ url_for('search', q=query, page=page_num) }}">{{ page_num }}</a>
+                                       href="{{ url_for('main.search', q=query, page=page_num) }}">{{ page_num }}</a>
                                 </li>
                                 {% else %}
                                 <li class="page-item active">
@@ -125,7 +125,7 @@
                         {% if articles.has_next %}
                         <li class="page-item">
                             <a class="page-link bg-dark border-secondary text-warning" 
-                               href="{{ url_for('search', q=query, page=articles.next_num) }}">
+                               href="{{ url_for('main.search', q=query, page=articles.next_num) }}">
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </li>
@@ -145,17 +145,17 @@
                         <div class="mt-4">
                             <h6 class="text-warning">Gợi ý tìm kiếm:</h6>
                             <div class="d-flex flex-wrap justify-content-center gap-2">
-                                <a href="{{ url_for('search', q='kèo thơm') }}" class="badge bg-warning text-dark text-decoration-none">kèo thơm</a>
-                                <a href="{{ url_for('search', q='soi kèo') }}" class="badge bg-warning text-dark text-decoration-none">soi kèo</a>
-                                <a href="{{ url_for('search', q='mẹo cược') }}" class="badge bg-warning text-dark text-decoration-none">mẹo cược</a>
-                                <a href="{{ url_for('search', q='Premier League') }}" class="badge bg-warning text-dark text-decoration-none">Premier League</a>
-                                <a href="{{ url_for('search', q='Champions League') }}" class="badge bg-warning text-dark text-decoration-none">Champions League</a>
+                                <a href="{{ url_for('main.search', q='kèo thơm') }}" class="badge bg-warning text-dark text-decoration-none">kèo thơm</a>
+                                <a href="{{ url_for('main.search', q='soi kèo') }}" class="badge bg-warning text-dark text-decoration-none">soi kèo</a>
+                                <a href="{{ url_for('main.search', q='mẹo cược') }}" class="badge bg-warning text-dark text-decoration-none">mẹo cược</a>
+                                <a href="{{ url_for('main.search', q='Premier League') }}" class="badge bg-warning text-dark text-decoration-none">Premier League</a>
+                                <a href="{{ url_for('main.search', q='Champions League') }}" class="badge bg-warning text-dark text-decoration-none">Champions League</a>
                             </div>
                         </div>
                         
                         <div class="mt-4">
-                            <a href="{{ url_for('index') }}" class="btn btn-warning me-2">Về trang chủ</a>
-                            <a href="{{ url_for('tin_tuc') }}" class="btn btn-outline-warning">Xem tin tức</a>
+                            <a href="{{ url_for('main.index') }}" class="btn btn-warning me-2">Về trang chủ</a>
+                            <a href="{{ url_for('main.tin_tuc') }}" class="btn btn-outline-warning">Xem tin tức</a>
                         </div>
                     </div>
                 </div>
@@ -199,14 +199,14 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-wrap gap-1">
-                        <a href="{{ url_for('search', q='kèo thơm hôm nay') }}" class="badge bg-secondary text-decoration-none">kèo thơm hôm nay</a>
-                        <a href="{{ url_for('search', q='soi kèo châu á') }}" class="badge bg-secondary text-decoration-none">soi kèo châu á</a>
-                        <a href="{{ url_for('search', q='mẹo cược tài xỉu') }}" class="badge bg-secondary text-decoration-none">mẹo cược tài xỉu</a>
-                        <a href="{{ url_for('search', q='manchester united') }}" class="badge bg-secondary text-decoration-none">manchester united</a>
-                        <a href="{{ url_for('search', q='barcelona') }}" class="badge bg-secondary text-decoration-none">barcelona</a>
-                        <a href="{{ url_for('search', q='real madrid') }}" class="badge bg-secondary text-decoration-none">real madrid</a>
-                        <a href="{{ url_for('search', q='premier league') }}" class="badge bg-secondary text-decoration-none">premier league</a>
-                        <a href="{{ url_for('search', q='champions league') }}" class="badge bg-secondary text-decoration-none">champions league</a>
+                        <a href="{{ url_for('main.search', q='kèo thơm hôm nay') }}" class="badge bg-secondary text-decoration-none">kèo thơm hôm nay</a>
+                        <a href="{{ url_for('main.search', q='soi kèo châu á') }}" class="badge bg-secondary text-decoration-none">soi kèo châu á</a>
+                        <a href="{{ url_for('main.search', q='mẹo cược tài xỉu') }}" class="badge bg-secondary text-decoration-none">mẹo cược tài xỉu</a>
+                        <a href="{{ url_for('main.search', q='manchester united') }}" class="badge bg-secondary text-decoration-none">manchester united</a>
+                        <a href="{{ url_for('main.search', q='barcelona') }}" class="badge bg-secondary text-decoration-none">barcelona</a>
+                        <a href="{{ url_for('main.search', q='real madrid') }}" class="badge bg-secondary text-decoration-none">real madrid</a>
+                        <a href="{{ url_for('main.search', q='premier league') }}" class="badge bg-secondary text-decoration-none">premier league</a>
+                        <a href="{{ url_for('main.search', q='champions league') }}" class="badge bg-secondary text-decoration-none">champions league</a>
                     </div>
                 </div>
             </div>
@@ -219,7 +219,7 @@
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         {% for category in categories %}
-                        <a href="{{ url_for('category_articles', slug=category.slug) }}" 
+                        <a href="{{ url_for('main.category_articles', slug=category.slug) }}" 
                            class="btn btn-outline-warning btn-sm text-start">
                             <i class="fas fa-folder me-2"></i>{{ category.name }}
                             <span class="badge bg-warning text-dark float-end">{{ category.articles|length }}</span>
@@ -235,7 +235,7 @@
                     <h6 class="mb-0">Tìm Kiếm Nâng Cao</h6>
                 </div>
                 <div class="card-body">
-                    <form method="GET" action="{{ url_for('search') }}">
+                    <form method="GET" action="{{ url_for('main.search') }}">
                         <div class="mb-3">
                             <label class="form-label text-warning small">Từ khóa</label>
                             <input type="text" class="form-control" name="q" value="{{ query }}">
