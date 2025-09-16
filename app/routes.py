@@ -71,6 +71,21 @@ def dai_ly_melbet():
         keywords="MelBet, affiliate, đại lý cá cược"
     )
     return render_template("dai-ly-melbet.html", meta_tags=meta_tags)
+@main_bp.route("/tin-tuc")
+@main_bp.route("/tin-tuc/page/<int:page>")
+def tin_tuc(page=1):
+    category = Category.query.filter_by(slug="tin-tuc").first_or_404()
+    articles = Article.query.filter_by(category_id=category.id, published=True)\
+        .order_by(desc(Article.created_at))\
+        .paginate(page=page, per_page=10)
+    
+    meta_tags = generate_meta_tags(
+        title="Tin Tức Bóng Đá | Kèo Sư",
+        description="Cập nhật tin tức bóng đá mới nhất từ các giải đấu lớn.",
+        keywords="tin tức bóng đá, tin thể thao"
+    )
+    
+    return render_template("tin-tuc.html", articles=articles, category=category, meta_tags=meta_tags)
 
 # Liên hệ
 @main_bp.route("/lien-he", methods=["GET", "POST"])
