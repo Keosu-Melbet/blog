@@ -351,7 +351,7 @@
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{ url_for('category_articles', slug=article.category.slug) }}">
+                <a href="{{ url_for('main.category_articles', slug=article.category.slug) }}">
                     {{ article.category.name }}
                 </a>
             </li>
@@ -511,7 +511,7 @@
                     <div class="card-body">
                         <span class="badge-category">{{ related.category.name }}</span>
                         <h6 class="card-title">
-                            <a href="{{ url_for('article_detail', slug=related.slug) }}">
+                            <a href="{{ url_for('main.article_detail', slug=related.slug) }}">
                                 {{ related.title }}
                             </a>
                         </h6>
