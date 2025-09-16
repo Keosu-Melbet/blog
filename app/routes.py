@@ -44,6 +44,23 @@ def meo_cuoc(page=1):
         keywords="mẹo cược, cá độ bóng đá"
     )
     return render_template("meo-cuoc.html", articles=articles, category=category, meta_tags=meta_tags)
+    
+@main_bp.route("/soi-keo")
+@main_bp.route("/soi-keo/page/<int:page>")
+def soi_keo(page=1):
+    category = Category.query.filter_by(slug="soi-keo").first_or_404()
+    articles = Article.query.filter_by(category_id=category.id, published=True)\
+        .order_by(desc(Article.created_at))\
+        .paginate(page=page, per_page=10)
+    
+    meta_tags = generate_meta_tags(
+        title="Soi Kèo Bóng Đá | Kèo Sư",
+        description="Phân tích kèo bóng đá hôm nay từ chuyên gia Kèo Sư.",
+        keywords="soi kèo, kèo bóng đá"
+    )
+    
+    return render_template("soi-keo.html", articles=articles, category=category, meta_tags=meta_tags)
+
 
 # Đại lý MelBet
 @main_bp.route("/dai-ly-melbet")
