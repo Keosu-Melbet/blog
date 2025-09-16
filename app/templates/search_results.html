@@ -189,7 +189,7 @@
                 <ul class="pagination justify-content-center">
                     {% if articles.has_prev %}
                     <li class="page-item">
-                        <a class="page-link" href="{{ url_for('search', query=query, page=articles.prev_num) }}">
+                        <a class="page-link" href="{{ url_for('main.search', query=query, page=articles.prev_num) }}">
                             <i class="fas fa-chevron-left"></i>
                             Trang trước
                         </a>
@@ -200,7 +200,7 @@
                         {% if page_num %}
                             {% if page_num != articles.page %}
                             <li class="page-item">
-                                <a class="page-link" href="{{ url_for('search', query=query, page=page_num) }}">
+                                <a class="page-link" href="{{ url_for('main.search', query=query, page=page_num) }}">
                                     {{ page_num }}
                                 </a>
                             </li>
@@ -218,7 +218,7 @@
                     
                     {% if articles.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="{{ url_for('search', query=query, page=articles.next_num) }}">
+                        <a class="page-link" href="{{ url_for('main.search', query=query, page=articles.next_num) }}">
                             Trang sau
                             <i class="fas fa-chevron-right"></i>
                         </a>
@@ -243,13 +243,13 @@
                 <div class="search-suggestions-box">
                     <h5>Gợi ý tìm kiếm:</h5>
                     <div class="suggestion-tags">
-                        <a href="{{ url_for('search') }}?query=kèo thơm" class="suggestion-tag">kèo thơm</a>
-                        <a href="{{ url_for('search') }}?query=soi kèo" class="suggestion-tag">soi kèo</a>
-                        <a href="{{ url_for('search') }}?query=mẹo cược" class="suggestion-tag">mẹo cược</a>
-                        <a href="{{ url_for('search') }}?query=Premier League" class="suggestion-tag">Premier League</a>
-                        <a href="{{ url_for('search') }}?query=Champions League" class="suggestion-tag">Champions League</a>
-                        <a href="{{ url_for('search') }}?query=Barcelona" class="suggestion-tag">Barcelona</a>
-                        <a href="{{ url_for('search') }}?query=Manchester United" class="suggestion-tag">Manchester United</a>
+                        <a href="{{ url_for('main.search') }}?query=kèo thơm" class="suggestion-tag">kèo thơm</a>
+                        <a href="{{ url_for('main.search') }}?query=soi kèo" class="suggestion-tag">soi kèo</a>
+                        <a href="{{ url_for('main.search') }}?query=mẹo cược" class="suggestion-tag">mẹo cược</a>
+                        <a href="{{ url_for('main.search') }}?query=Premier League" class="suggestion-tag">Premier League</a>
+                        <a href="{{ url_for('main.search') }}?query=Champions League" class="suggestion-tag">Champions League</a>
+                        <a href="{{ url_for('main.search') }}?query=Barcelona" class="suggestion-tag">Barcelona</a>
+                        <a href="{{ url_for('main.search') }}?query=Manchester United" class="suggestion-tag">Manchester United</a>
                     </div>
                 </div>
             </div>
@@ -268,12 +268,12 @@
             <div class="popular-searches">
                 <h5>Từ khóa phổ biến:</h5>
                 <div class="popular-tags">
-                    <a href="{{ url_for('search') }}?query=kèo thơm hôm nay" class="popular-tag">kèo thơm hôm nay</a>
-                    <a href="{{ url_for('search') }}?query=soi kèo Premier League" class="popular-tag">soi kèo Premier League</a>
-                    <a href="{{ url_for('search') }}?query=mẹo cược bóng đá" class="popular-tag">mẹo cược bóng đá</a>
-                    <a href="{{ url_for('search') }}?query=tỷ lệ kèo" class="popular-tag">tỷ lệ kèo</a>
-                    <a href="{{ url_for('search') }}?query=phân tích kèo" class="popular-tag">phân tích kèo</a>
-                    <a href="{{ url_for('search') }}?query=dự đoán bóng đá" class="popular-tag">dự đoán bóng đá</a>
+                    <a href="{{ url_for('main.search') }}?query=kèo thơm hôm nay" class="popular-tag">kèo thơm hôm nay</a>
+                    <a href="{{ url_for('main.search') }}?query=soi kèo Premier League" class="popular-tag">soi kèo Premier League</a>
+                    <a href="{{ url_for('main.search') }}?query=mẹo cược bóng đá" class="popular-tag">mẹo cược bóng đá</a>
+                    <a href="{{ url_for('main.search') }}?query=tỷ lệ kèo" class="popular-tag">tỷ lệ kèo</a>
+                    <a href="{{ url_for('main.search') }}?query=phân tích kèo" class="popular-tag">phân tích kèo</a>
+                    <a href="{{ url_for('main.search') }}?query=dự đoán bóng đá" class="popular-tag">dự đoán bóng đá</a>
                 </div>
             </div>
         </div>
@@ -291,7 +291,7 @@
         <div class="row">
             {% for category in get_categories() %}
             <div class="col-lg-3 col-md-6 mb-3">
-                <a href="{{ url_for('category_articles', slug=category.slug) }}" class="quick-link-card">
+                <a href="{{ url_for('main.category_articles', slug=category.slug) }}" class="quick-link-card">
                     <i class="fas fa-{{ 'fire' if category.slug == 'keo-thom' else 'search' if category.slug == 'soi-keo' else 'lightbulb' if category.slug == 'meo-cuoc' else 'newspaper' if category.slug == 'tin-tuc' else 'calendar' }}"></i>
                     <span>{{ category.name }}</span>
                 </a>
