@@ -169,7 +169,7 @@
                 <div class="card-body text-center">
                     <h6 class="fw-bold mb-3">🔥 Kèo Thơm Hôm Nay</h6>
                     <p class="small mb-3">Xem tỷ lệ kèo và khuyến nghị mới nhất</p>
-                    <a href="{{ url_for('keo_thom') }}" class="btn btn-dark btn-sm">Xem Ngay</a>
+                    <a href="{{ url_for('main.meo_cuoc') }}" class="btn btn-dark btn-sm">Xem Ngay</a>
                 </div>
             </div>
             {% elif category.slug == 'soi-keo' %}
@@ -177,7 +177,7 @@
                 <div class="card-body text-center">
                     <h6 class="fw-bold mb-3">🔍 Soi Kèo Chuyên Nghiệp</h6>
                     <p class="small mb-3">Phân tích từ đội ngũ chuyên gia</p>
-                    <a href="{{ url_for('soi_keo') }}" class="btn btn-dark btn-sm">Phân Tích</a>
+                    <a href="{{ url_for('main.soi_keo') }}" class="btn btn-dark btn-sm">Phân Tích</a>
                 </div>
             </div>
             {% elif category.slug == 'meo-cuoc' %}
@@ -185,7 +185,7 @@
                 <div class="card-body text-center">
                     <h6 class="fw-bold mb-3">💡 Mẹo Cược Hay</h6>
                     <p class="small mb-3">Kinh nghiệm từ cao thủ</p>
-                    <a href="{{ url_for('meo_cuoc') }}" class="btn btn-dark btn-sm">Học Hỏi</a>
+                    <a href="{{ url_for('main.meo_cuoc') }}" class="btn btn-dark btn-sm">Học Hỏi</a>
                 </div>
             </div>
             {% elif category.slug == 'tin-tuc' %}
@@ -193,7 +193,7 @@
                 <div class="card-body text-center">
                     <h6 class="fw-bold mb-3">📰 Tin Tức Nóng</h6>
                     <p class="small mb-3">Cập nhật tin tức bóng đá</p>
-                    <a href="{{ url_for('tin_tuc') }}" class="btn btn-dark btn-sm">Đọc Tin</a>
+                    <a href="{{ url_for('main.tin_tuc') }}" class="btn btn-dark btn-sm">Đọc Tin</a>
                 </div>
             </div>
             {% endif %}
@@ -205,7 +205,7 @@
                 </div>
                 <div class="card-body text-center">
                     <p class="text-light small mb-3">Nhà cái uy tín • Tỷ lệ tốt</p>
-                    <a href="{{ url_for('dai_ly_melbet') }}" class="btn btn-warning btn-sm">Đăng Ký</a>
+                    <a href="{{ url_for('main.dai_ly_melbet') }}" class="btn btn-warning btn-sm">Đăng Ký</a>
                 </div>
             </div>
 
