@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <!-- Category -->
                     <div class="mb-3">
-                        <a href="{{ url_for('category_articles', slug=article.category.slug) }}" 
+                        <a href="{{ url_for('main.category_articles', slug=article.category.slug) }}" 
                            class="badge bg-warning text-dark text-decoration-none">
                             {{ article.category.name }}
                         </a>
@@ -46,7 +46,7 @@
                     <div class="mt-4 pt-4 border-top border-secondary">
                         <h6 class="text-warning mb-2">Từ khóa:</h6>
                         {% for keyword in article.meta_keywords.split(',') %}
-                        <a href="{{ url_for('search', q=keyword.strip()) }}" 
+                        <a href="{{ url_for('main.search', q=keyword.strip()) }}" 
                            class="badge bg-secondary text-decoration-none me-1 mb-1">
                             {{ keyword.strip() }}
                         </a>
