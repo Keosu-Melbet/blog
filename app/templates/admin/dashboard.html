@@ -157,7 +157,7 @@
                         <i class="fas fa-envelope"></i>
                         Tin nhắn liên hệ
                     </a>
-                    <a class="nav-link" href="{{ url_for('index') }}">
+                    <a class="nav-link" href="{{ url_for('main.index') }}">
                         <i class="fas fa-eye"></i>
                         Xem website
                     </a>
@@ -262,7 +262,7 @@
                                         <td>{{ article.created_at.strftime('%d/%m/%Y') }}</td>
                                         <td>
                                             <div class="action-buttons">
-                                                <a href="{{ url_for('article_detail', slug=article.slug) }}" 
+                                                <a href="{{ url_for('main.article_detail', slug=article.slug) }}" 
                                                    class="btn btn-sm btn-outline-primary btn-action" target="_blank">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
@@ -353,7 +353,7 @@
                                 <i class="fas fa-eye"></i>
                                 Xem trang chủ
                             </a>
-                            <a href="{{ url_for('sitemap') }}" class="btn btn-outline-secondary" target="_blank">
+                            <a href="{{ url_for('main.sitemap') }}" class="btn btn-outline-secondary" target="_blank">
                                 <i class="fas fa-sitemap"></i>
                                 Sitemap
                             </a>
