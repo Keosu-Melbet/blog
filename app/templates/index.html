@@ -9,7 +9,7 @@
                 <h1 class="display-4 fw-bold text-warning mb-3">Kèo Sư - Chuyên Gia Kèo Bóng Đá</h1>
                 <p class="lead mb-4">Cung cấp tỷ lệ kèo chính xác, phân tích chuyên sâu và mẹo cược hiệu quả. Đối tác chính thức MelBet tại Việt Nam.</p>
                 <div class="d-flex gap-3">
-                    <a href="{{ url_for('main.meo_cuoc') }}" class="btn btn-warning btn-lg">Xem Kèo Thơm</a>
+                    <a href="{{ url_for('main.keo_thom') }}" class="btn btn-warning btn-lg">Xem Kèo Thơm</a>
                     <a href="#" class="btn btn-outline-warning btn-lg">Đăng Ký MelBet</a>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                     <div class="card-body">
                         <span class="badge bg-warning text-dark mb-2">{{ article.category.name }}</span>
                         <h5 class="card-title text-warning">
-                            <a href="{{ url_for('article_detail', slug=article.slug) }}" class="text-decoration-none text-warning">{{ article.title }}</a>
+                            <a href="{{ url_for('main.article_detail', slug=article.slug) }}" class="text-decoration-none text-warning">{{ article.title }}</a>
                         </h5>
                         <p class="card-text text-light">{{ article.get_excerpt(100) }}</p>
                     </div>
@@ -77,7 +77,7 @@
                         <i class="fas fa-fire text-warning fa-3x mb-3"></i>
                         <h5 class="card-title text-warning">Kèo Thơm Hôm Nay</h5>
                         <p class="card-text text-light">Những kèo có tỷ lệ thắng cao nhất</p>
-                        <a href="{{ url_for('main.meo_cuoc') }}" class="btn btn-warning">Xem Ngay</a>
+                        <a href="{{ url_for('main.keo_thom') }}" class="btn btn-warning">Xem Ngay</a>
                     </div>
                 </div>
             </div>
@@ -128,7 +128,7 @@
                     <div class="card-body">
                         <span class="badge bg-secondary mb-2">{{ article.category.name }}</span>
                         <h6 class="card-title">
-                            <a href="{{ url_for('article_detail', slug=article.slug) }}" class="text-decoration-none text-light">{{ article.title }}</a>
+                            <a href="{{ url_for('main.article_detail', slug=article.slug) }}" class="text-decoration-none text-light">{{ article.title }}</a>
                         </h6>
                         <p class="card-text text-muted small">{{ article.get_excerpt(80) }}</p>
                     </div>
