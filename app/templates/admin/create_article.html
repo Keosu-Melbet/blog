@@ -201,5 +201,43 @@ if (metaDesc) {
     metaDesc.addEventListener('input', updateCounter);
     updateCounter();
 }
+{% block scripts %}
+<!-- CKEditor CDN -->
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    // Kích hoạt CKEditor cho textarea có id="content"
+    CKEDITOR.replace('content');
+
+    // Auto-generate meta title từ tiêu đề
+    const titleInput = document.querySelector('#title');
+    const metaTitle = document.querySelector('#meta_title');
+    if (titleInput && metaTitle) {
+        titleInput.addEventListener('input', function () {
+            if (!metaTitle.value) {
+                metaTitle.value = this.value;
+            }
+        });
+    }
+
+    // Character counter cho meta description
+    const metaDesc = document.querySelector('#meta_description');
+    if (metaDesc) {
+        const counter = document.createElement('div');
+        counter.className = 'form-text text-muted';
+        metaDesc.parentNode.appendChild(counter);
+
+        function updateCounter() {
+            const length = metaDesc.value.length;
+            counter.textContent = `${length}/160 ký tự`;
+            counter.style.color =
+                length > 160 ? '#dc3545' :
+                length > 150 ? '#ffc107' :
+                '#6c757d';
+        }
+
+        metaDesc.addEventListener('input', updateCounter);
+        updateCounter();
+    }
 </script>
 {% endblock %}
+
