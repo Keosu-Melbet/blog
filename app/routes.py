@@ -4,7 +4,7 @@ from .forms import ContactForm, SearchForm
 from . import db
 from .seo_utils import generate_meta_tags
 from sqlalchemy import desc, or_
-from datetime import datetime, timedelta
+from datetime import datetime
 
 main_bp = Blueprint("main", __name__)
 
@@ -44,23 +44,56 @@ def meo_cuoc(page=1):
         keywords="mẹo cược, cá độ bóng đá"
     )
     return render_template("meo-cuoc.html", articles=articles, category=category, meta_tags=meta_tags)
-    
+
+# Soi kèo
 @main_bp.route("/soi-keo")
 @main_bp.route("/soi-keo/page/<int:page>")
 def soi_keo(page=1):
     category = Category.query.filter_by(slug="soi-keo").first_or_404()
-    articles = Article.query.filter_by(category_id=category.id, published=True)\
-        .order_by(desc(Article.created_at))\
-        .paginate(page=page, per_page=10)
-    
+    articles = Article.query.filter_by(category_id=category.id, published=True).order_by(desc(Article.created_at)).paginate(page=page, per_page=10)
     meta_tags = generate_meta_tags(
         title="Soi Kèo Bóng Đá | Kèo Sư",
         description="Phân tích kèo bóng đá hôm nay từ chuyên gia Kèo Sư.",
         keywords="soi kèo, kèo bóng đá"
     )
-    
     return render_template("soi-keo.html", articles=articles, category=category, meta_tags=meta_tags)
 
+# Tin tức
+@main_bp.route("/tin-tuc")
+@main_bp.route("/tin-tuc/page/<int:page>")
+def tin_tuc(page=1):
+    category = Category.query.filter_by(slug="tin-tuc").first_or_404()
+    articles = Article.query.filter_by(category_id=category.id, published=True).order_by(desc(Article.created_at)).paginate(page=page, per_page=10)
+    meta_tags = generate_meta_tags(
+        title="Tin Tức Bóng Đá | Kèo Sư",
+        description="Cập nhật tin tức bóng đá mới nhất từ các giải đấu lớn.",
+        keywords="tin tức bóng đá, tin thể thao"
+    )
+    return render_template("tin-tuc.html", articles=articles, category=category, meta_tags=meta_tags)
+
+# Lịch thi đấu
+@main_bp.route("/lich-thi-dau")
+def lich_thi_dau():
+    selected_date = request.args.get("date", datetime.now().date().strftime("%Y-%m-%d"))
+    matches = Match.query.filter(Match.match_date == selected_date).all()
+    meta_tags = generate_meta_tags(
+        title="Lịch Thi Đấu Bóng Đá",
+        description="Lịch thi đấu các giải bóng đá hàng đầu thế giới.",
+        keywords="lịch thi đấu, bóng đá"
+    )
+    return render_template("lich-thi-dau.html", matches=matches, selected_date=selected_date, meta_tags=meta_tags)
+
+# Tỷ lệ cược
+@main_bp.route("/ty-le-cuoc")
+def ty_le_cuoc():
+    today = datetime.now().date()
+    odds = BettingOdd.query.filter(BettingOdd.match_date == today).all()
+    meta_tags = generate_meta_tags(
+        title="Tỷ Lệ Cược Bóng Đá",
+        description="Tỷ lệ cược bóng đá hôm nay từ các nhà cái uy tín.",
+        keywords="tỷ lệ cược, kèo bóng đá"
+    )
+    return render_template("ty-le-cuoc.html", odds=odds, meta_tags=meta_tags)
 
 # Đại lý MelBet
 @main_bp.route("/dai-ly-melbet")
@@ -71,21 +104,6 @@ def dai_ly_melbet():
         keywords="MelBet, affiliate, đại lý cá cược"
     )
     return render_template("dai-ly-melbet.html", meta_tags=meta_tags)
-@main_bp.route("/tin-tuc")
-@main_bp.route("/tin-tuc/page/<int:page>")
-def tin_tuc(page=1):
-    category = Category.query.filter_by(slug="tin-tuc").first_or_404()
-    articles = Article.query.filter_by(category_id=category.id, published=True)\
-        .order_by(desc(Article.created_at))\
-        .paginate(page=page, per_page=10)
-    
-    meta_tags = generate_meta_tags(
-        title="Tin Tức Bóng Đá | Kèo Sư",
-        description="Cập nhật tin tức bóng đá mới nhất từ các giải đấu lớn.",
-        keywords="tin tức bóng đá, tin thể thao"
-    )
-    
-    return render_template("tin-tuc.html", articles=articles, category=category, meta_tags=meta_tags)
 
 # Liên hệ
 @main_bp.route("/lien-he", methods=["GET", "POST"])
@@ -119,7 +137,7 @@ def article_detail(slug):
     )
     return render_template("article.html", article=article, related_articles=related_articles, meta_tags=meta_tags)
 
-# Chuyên mục
+# Chuyên mục động
 @main_bp.route("/chuyen-muc/<slug>")
 @main_bp.route("/chuyen-muc/<slug>/page/<int:page>")
 def category_articles(slug, page=1):
@@ -131,88 +149,27 @@ def category_articles(slug, page=1):
         keywords=f"{category.name}, {category.slug}"
     )
     return render_template("category.html", category=category, articles=articles, meta_tags=meta_tags)
-
 # Tìm kiếm
 @main_bp.route("/search")
 def search():
-    query = request.args.get("q", "")
+    query = request.args.get("q", "").strip()
     page = request.args.get("page", 1, type=int)
+
     if query:
         articles = Article.query.filter(
             or_(
-                Article.title.contains(query),
-                Article.content.contains(query)
+                Article.title.ilike(f"%{query}%"),
+                Article.content.ilike(f"%{query}%")
             ),
             Article.published == True
         ).order_by(desc(Article.created_at)).paginate(page=page, per_page=10)
     else:
-        articles = Article.query.filter_by(published=False).paginate(page=1, per_page=0)
+        articles = None  # Không hiển thị kết quả nếu không có từ khóa
+
     meta_tags = generate_meta_tags(
         title=f"Tìm kiếm: {query} | Kèo Sư" if query else "Tìm kiếm | Kèo Sư",
         description=f"Kết quả tìm kiếm cho '{query}'" if query else "Tìm kiếm bài viết",
         keywords=f"tìm kiếm, {query}" if query else "tìm kiếm"
     )
+
     return render_template("search.html", articles=articles, query=query, meta_tags=meta_tags)
-
-# Sitemap
-@main_bp.route("/sitemap.xml")
-def sitemap():
-    pages = []
-    static_pages = [
-        {"url": url_for("main.index"), "priority": "1.0"},
-        {"url": url_for("main.keo_thom"), "priority": "0.9"},
-        {"url": url_for("main.meo_cuoc"), "priority": "0.8"},
-        {"url": url_for("main.dai_ly_melbet"), "priority": "0.6"},
-        {"url": url_for("main.lien_he"), "priority": "0.5"},
-    ]
-    articles = Article.query.filter_by(published=True).all()
-    for article in articles:
-        pages.append({
-            "url": url_for("main.article_detail", slug=article.slug),
-            "lastmod": article.updated_at.strftime("%Y-%m-%d"),
-            "priority": "0.8"
-        })
-    categories = Category.query.all()
-    for category in categories:
-        pages.append({
-            "url": url_for("main.category_articles", slug=category.slug),
-            "priority": "0.6"
-        })
-    pages.extend(static_pages)
-    response = make_response(render_template("sitemap.xml", pages=pages))
-    response.headers["Content-Type"] = "application/xml"
-    return response
-
-# Robots.txt
-@main_bp.route("/robots.txt")
-def robots():
-    response = make_response(render_template("robots.txt"))
-    response.headers["Content-Type"] = "text/plain"
-    return response
-
-# Error handlers
-@main_bp.app_errorhandler(404)
-def not_found_error(error):
-    meta_tags = generate_meta_tags(
-        title="404 - Không tìm thấy",
-        description="Trang bạn tìm kiếm không tồn tại.",
-        keywords="404, lỗi trang"
-    )
-    return render_template("404.html", meta_tags=meta_tags), 404
-
-@main_bp.app_errorhandler(500)
-def internal_error(error):
-    db.session.rollback()
-    meta_tags = generate_meta_tags(
-        title="500 - Lỗi hệ thống",
-        description="Đã xảy ra lỗi hệ thống.",
-        keywords="500, lỗi server"
-    )
-    return render_template("500.html", meta_tags=meta_tags), 500
-
-# Inject global variables
-@main_bp.context_processor
-def inject_globals():
-    categories = Category.query.all()
-    search_form = SearchForm()
-    return {"categories": categories, "search_form": search_form}
