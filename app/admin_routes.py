@@ -23,20 +23,31 @@ def manage_articles():
 @admin_bp.route("/articles/create", methods=["GET", "POST"], endpoint="create_article")
 def create_article():
     form = ArticleForm()
-    form.category_id.choices = [(c.id, c.name) for c in Category.query.all()]
+    form.category_id.choices = [(c.id, c.name) for c in Category.query.order_by(Category.name).all()]
 
     if form.validate_on_submit():
+        # Tạo excerpt nếu chưa nhập
+        excerpt = form.excerpt.data or form.content.data[:160]
+
         article = Article(
             title=form.title.data,
             content=form.content.data,
             category_id=form.category_id.data,
-            published=form.published.data
+            excerpt=excerpt,
+            featured_image=form.featured_image.data,
+            published=form.published.data,
+            featured=form.featured.data,
+            meta_title=form.meta_title.data or form.title.data,
+            meta_description=form.meta_description.data or excerpt,
+            meta_keywords=form.meta_keywords.data
         )
         article.slug = article.generate_slug()
+
         db.session.add(article)
         db.session.commit()
-        flash("Bài viết đã được tạo!", "success")
+        flash("✅ Bài viết đã được tạo!", "success")
         return redirect(url_for("admin.manage_articles"))
 
     return render_template("admin/create_article.html", form=form)
+
 
