@@ -82,18 +82,22 @@ def lich_thi_dau():
         keywords="lịch thi đấu, bóng đá"
     )
     return render_template("lich-thi-dau.html", matches=matches, selected_date=selected_date, meta_tags=meta_tags)
-
-# Tỷ lệ cược
-@main_bp.route("/ty-le-cuoc")
-def ty_le_cuoc():
-    today = datetime.now().date()
-    odds = BettingOdd.query.filter(BettingOdd.match_date == today).all()
-    meta_tags = generate_meta_tags(
-        title="Tỷ Lệ Cược Bóng Đá",
-        description="Tỷ lệ cược bóng đá hôm nay từ các nhà cái uy tín.",
-        keywords="tỷ lệ cược, kèo bóng đá"
-    )
-    return render_template("ty-le-cuoc.html", odds=odds, meta_tags=meta_tags)
+    
+# Tỷ số trực tiếp
+@main_bp.route("/ty-so-truc-tiep")
+def ty_so_truc_tiep():
+    sample_matches = [
+        {"league": "Premier League", "time": "21:00", "team_a": "Man United", "team_b": "Arsenal", "status": "LIVE", "status_color": "danger", "score": "2 - 1"},
+        {"league": "La Liga", "time": "22:30", "team_a": "Real Madrid", "team_b": "Barcelona", "status": "FT", "status_color": "success", "score": "3 - 1"},
+        {"league": "Serie A", "time": "23:45", "team_a": "Juventus", "team_b": "AC Milan", "status": "HT", "status_color": "warning", "score": "1 - 0"},
+    ]
+    features = [
+        {"icon": "fas fa-bolt", "title": "Cập Nhật Nhanh", "description": "Tỷ số cập nhật realtime từ sân đấu"},
+        {"icon": "fas fa-globe", "title": "Toàn Cầu", "description": "Theo dõi các giải đấu trên thế giới"},
+        {"icon": "fas fa-chart-bar", "title": "Thống Kê", "description": "Thông tin chi tiết về từng trận đấu"},
+        {"icon": "fas fa-mobile-alt", "title": "Mobile Friendly", "description": "Xem trên mọi thiết bị dễ dàng"},
+    ]
+    return render_template("ty-so-truc-tiep.html", sample_matches=sample_matches, features=features)
 
 # Đại lý MelBet
 @main_bp.route("/dai-ly-melbet")
