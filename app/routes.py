@@ -80,16 +80,13 @@ def tin_tuc(page=1):
 @main_bp.route("/lich-thi-dau")
 def lich_thi_dau():
     selected_date = request.args.get("date", datetime.now().date().strftime("%Y-%m-%d"))
-    matches = Match.query.filter(
-        db.func.date(Match.kickoff) == selected_date
-    ).all()
+    matches = Match.query.filter(func.date(Match.kickoff) == selected_date).all()
     meta_tags = generate_meta_tags(
         title="Lịch Thi Đấu Bóng Đá",
         description="Lịch thi đấu các giải bóng đá hàng đầu thế giới.",
         keywords="lịch thi đấu, bóng đá"
     )
     return render_template("lich-thi-dau.html", matches=matches, selected_date=selected_date, meta_tags=meta_tags)
-
     
 # Tỷ số trực tiếp
 @main_bp.route("/ty-so-truc-tiep")
