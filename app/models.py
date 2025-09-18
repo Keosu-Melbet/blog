@@ -6,10 +6,9 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    slug = db.Column(db.String(100), unique=True, nullable=False)  # ✅ Thêm slug
+    slug = db.Column(db.String(100), unique=True, nullable=False)
     description = db.Column(db.Text)
 
-    # Quan hệ ngược với Article
     articles = db.relationship("Article", backref="category", lazy=True)
 
     def __repr__(self):
