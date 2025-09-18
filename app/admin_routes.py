@@ -9,7 +9,25 @@ admin_bp = Blueprint("admin", __name__, template_folder="templates/admin")
 # ✅ Trang dashboard admin
 @admin_bp.route("/", endpoint="dashboard")
 def dashboard():
-    return render_template("admin/dashboard.html")
+    total_articles = Article.query.count()
+    published_articles = Article.query.filter_by(published=True).count()
+    total_categories = Category.query.count()
+
+    # Lấy 5 bài viết mới nhất
+    recent_articles = Article.query.order_by(Article.created_at.desc()).limit(5).all()
+
+    # Nếu chưa có model Contact, dùng danh sách rỗng
+    recent_contacts = []  # Hoặc Contact.query.order_by(Contact.created_at.desc()).limit(5).all()
+
+    return render_template(
+        "admin/dashboard.html",
+        total_articles=total_articles,
+        published_articles=published_articles,
+        total_categories=total_categories,
+        recent_articles=recent_articles,
+        recent_contacts=recent_contacts
+    )
+
 
 # ✅ Quản lý bài viết
 @admin_bp.route("/articles", endpoint="manage_articles")
