@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
+<div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <!-- Page Header -->
             <div class="page-header mb-4">
                 <h1 class="text-warning">
-                    <i class="fas fa-plus-circle me-2"></i>Tạo Bài Viết Mới
+                    <i class="fas fa-plus-circle me-2"></i> Tạo Bài Viết Mới
                 </h1>
                 <p class="text-light">Thêm bài viết mới vào website</p>
             </div>
 
+            <!-- Form Card -->
             <div class="card bg-dark border-warning">
                 <div class="card-header bg-warning text-dark">
                     <h5 class="mb-0">Thông Tin Bài Viết</h5>
@@ -19,12 +20,12 @@
                 <div class="card-body">
                     <form method="POST">
                         {{ form.hidden_tag() }}
-                        
-                        <!-- Basic Info -->
+
+                        <!-- Tiêu đề & Chuyên mục -->
                         <div class="row">
                             <div class="col-md-8 mb-3">
                                 {{ form.title.label(class="form-label text-warning") }}
-                                {{ form.title(class="form-control form-control-lg") }}
+                                {{ form.title(id="title", class="form-control form-control-lg") }}
                                 {% if form.title.errors %}
                                     <div class="text-danger small">
                                         {% for error in form.title.errors %}
@@ -46,10 +47,10 @@
                             </div>
                         </div>
 
-                        <!-- Content -->
+                        <!-- Nội dung -->
                         <div class="mb-3">
                             {{ form.content.label(class="form-label text-warning") }}
-                            {{ form.content(class="form-control", rows="12") }}
+                            {{ form.content(id="content", class="form-control", rows="12") }}
                             {% if form.content.errors %}
                                 <div class="text-danger small">
                                     {% for error in form.content.errors %}
@@ -60,7 +61,7 @@
                             <div class="form-text text-muted">Bạn có thể sử dụng HTML tags để định dạng nội dung</div>
                         </div>
 
-                        <!-- Excerpt -->
+                        <!-- Mô tả ngắn -->
                         <div class="mb-3">
                             {{ form.excerpt.label(class="form-label text-warning") }}
                             {{ form.excerpt(class="form-control", rows="3") }}
@@ -74,7 +75,7 @@
                             <div class="form-text text-muted">Mô tả ngắn gọn về bài viết (để trống sẽ tự động tạo từ nội dung)</div>
                         </div>
 
-                        <!-- Featured Image -->
+                        <!-- Ảnh đại diện -->
                         <div class="mb-3">
                             {{ form.featured_image.label(class="form-label text-warning") }}
                             {{ form.featured_image(class="form-control") }}
@@ -88,7 +89,7 @@
                             <div class="form-text text-muted">URL của ảnh đại diện cho bài viết</div>
                         </div>
 
-                        <!-- Settings -->
+                        <!-- Cài đặt -->
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="form-check mb-2">
@@ -118,13 +119,13 @@
                         <!-- SEO Section -->
                         <div class="card bg-secondary mb-4">
                             <div class="card-header">
-                                <h6 class="text-warning mb-0"><i class="fas fa-search me-2"></i>Tối Ưu SEO</h6>
+                                <h6 class="text-warning mb-0"><i class="fas fa-search me-2"></i> Tối Ưu SEO</h6>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         {{ form.meta_title.label(class="form-label text-warning") }}
-                                        {{ form.meta_title(class="form-control") }}
+                                        {{ form.meta_title(id="meta_title", class="form-control") }}
                                         {% if form.meta_title.errors %}
                                             <div class="text-danger small">
                                                 {% for error in form.meta_title.errors %}
@@ -149,7 +150,7 @@
                                 </div>
                                 <div class="mb-0">
                                     {{ form.meta_description.label(class="form-label text-warning") }}
-                                    {{ form.meta_description(class="form-control", rows="2") }}
+                                    {{ form.meta_description(id="meta_description", class="form-control", rows="2") }}
                                     {% if form.meta_description.errors %}
                                         <div class="text-danger small">
                                             {% for error in form.meta_description.errors %}
@@ -157,7 +158,7 @@
                                             {% endfor %}
                                         </div>
                                     {% endif %}
-                                    <div class="form-text text-muted">Mô tả hiển thị trên kết quả tìm kiếm (150-160 ký tự)</div>
+                                    <div class="form-text text-muted">Mô tả hiển thị trên kết quả tìm kiếm (150–160 ký tự)</div>
                                 </div>
                             </div>
                         </div>
@@ -176,36 +177,9 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-// Auto-generate meta title from title
-document.querySelector('#title').addEventListener('input', function() {
-    const metaTitle = document.querySelector('#meta_title');
-    if (!metaTitle.value) {
-        metaTitle.value = this.value;
-    }
-});
-
-// Character counter for meta description
-const metaDesc = document.querySelector('#meta_description');
-if (metaDesc) {
-    const counter = document.createElement('div');
-    counter.className = 'form-text text-muted';
-    metaDesc.parentNode.appendChild(counter);
-    
-    function updateCounter() {
-        const length = metaDesc.value.length;
-        counter.textContent = `${length}/160 ký tự`;
-        counter.style.color = length > 160 ? '#dc3545' : length > 150 ? '#ffc107' : '#6c757d';
-    }
-    
-    metaDesc.addEventListener('input', updateCounter);
-    updateCounter();
-}
-{% block scripts %}
 <!-- CKEditor CDN -->
 <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
 <script>
-    // Kích hoạt CKEditor cho textarea có id="content"
     CKEDITOR.replace('content');
 
     // Auto-generate meta title từ tiêu đề
@@ -240,4 +214,3 @@ if (metaDesc) {
     }
 </script>
 {% endblock %}
-
