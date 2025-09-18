@@ -5,6 +5,7 @@ from . import db
 from .seo_utils import generate_meta_tags
 from sqlalchemy import desc, or_
 from datetime import datetime
+from sqlalchemy.orm import joinedload
 
 main_bp = Blueprint("main", __name__)
 
@@ -24,13 +25,17 @@ def index():
 @main_bp.route("/keo-thom")
 def keo_thom():
     today = datetime.now().date()
-    odds = BettingOdd.query.filter(BettingOdd.match_date == today).all()
+    odds = BettingOdd.query.join(Match).filter(
+        db.func.date(Match.kickoff) == today
+    ).options(joinedload(BettingOdd.match)).all()
+
     meta_tags = generate_meta_tags(
         title="Kèo Thơm Hôm Nay",
         description="Cập nhật kèo thơm hôm nay từ các nhà cái uy tín.",
         keywords="kèo thơm, tỷ lệ kèo"
     )
     return render_template("keo-thom.html", odds=odds, meta_tags=meta_tags)
+
 
 # Mẹo cược
 @main_bp.route("/meo-cuoc")
@@ -70,18 +75,21 @@ def tin_tuc(page=1):
         keywords="tin tức bóng đá, tin thể thao"
     )
     return render_template("tin-tuc.html", articles=articles, category=category, meta_tags=meta_tags)
-
+    
 # Lịch thi đấu
 @main_bp.route("/lich-thi-dau")
 def lich_thi_dau():
     selected_date = request.args.get("date", datetime.now().date().strftime("%Y-%m-%d"))
-    matches = Match.query.filter(Match.match_date == selected_date).all()
+    matches = Match.query.filter(
+        db.func.date(Match.kickoff) == selected_date
+    ).all()
     meta_tags = generate_meta_tags(
         title="Lịch Thi Đấu Bóng Đá",
         description="Lịch thi đấu các giải bóng đá hàng đầu thế giới.",
         keywords="lịch thi đấu, bóng đá"
     )
     return render_template("lich-thi-dau.html", matches=matches, selected_date=selected_date, meta_tags=meta_tags)
+
     
 # Tỷ số trực tiếp
 @main_bp.route("/ty-so-truc-tiep")
